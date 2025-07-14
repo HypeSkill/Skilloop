@@ -1,103 +1,78 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React from "react";
+
+export default function Homepage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="bg-white font-[Poppins]">
+      <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-sm">
+        <nav className="container mx-auto flex items-center justify-between px-6 lg:px-10 py-4">
+          <div className="flex items-center gap-3 text-gray-900">
+            <svg className="h-8 w-8 text-[#4361ee]" fill="none" viewBox="0 0 48 48">
+              <path d="M44 11.2727C44..." fill="currentColor" />
+            </svg>
+            <h2 className="text-[#111827] text-2xl font-bold">Skilloop</h2>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#374151]">
+            <a className="hover:text-[#4361ee]" href="#">Explore Skills</a>
+            <a className="hover:text-[#4361ee]" href="#">Post a Skill</a>
+          </div>
+          <div className="flex items-center gap-3">
+            <a className="px-5 py-2.5 rounded-full border hover:bg-gray-100" href="#">Login</a>
+            <a className="px-5 py-2.5 rounded-full bg-[#4361ee] text-white hover:bg-opacity-90" href="#">Register</a>
+          </div>
+        </nav>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      <main className="flex-1">
+        <section className="py-20 text-center">
+          <div className="container mx-auto px-6 max-w-3xl">
+            <h1 className="text-4xl font-extrabold text-[#111827]">Welcome to Skilloop</h1>
+            <p className="mt-4 text-lg text-[#6b7280]">The best place to share and learn new skills.</p>
+          </div>
+        </section>
+
+        <section className="py-20 bg-[#f3f4f6]">
+          <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-lg">
+              <h2 className="text-3xl font-bold text-[#111827]">Showcase Your Talent. Connect. Collaborate.</h2>
+              <p className="mt-4 text-lg text-[#6b7280]">Skilloop helps people share their skills and get noticed.</p>
+              <div className="mt-8">
+                <a className="px-5 py-2.5 rounded-full bg-[#4361ee] text-white hover:bg-opacity-90" href="#">Join the Community</a>
+              </div>
+            </div>
+            <div className="relative h-96 rounded-2xl overflow-hidden">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4U-hzpHRz7WikKZE2AxX_xxrPEHNtRuVYL0tWG0Idt3_fBUFJ6H29pAy-XoWR3vD9ihGSLX7qrKQL47ZP3UZM9e8wL2wob6DMUc1HjDd6Kr9pfK7pzXcmr-uh1h96QCC1QA72pRcVJBoJVZ3IXnUDmL9N41cFDbAXjLd39lQrlKlFLCs44PtABg_lX2FyQF7u7gE11CFvtHgnqCyXpV9s9kzKGtVCsYt4-LpSNOV_f_n46ZlzAdp2MgbETmxAw2bovJ0f6wBI1-wL"
+                alt="Showcase"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl font-bold text-[#111827]">Features Built for Growth</h2>
+            </div>
+            <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: "🧑‍🎓", title: "Student Profiles", desc: "Create a detailed profile." },
+                { icon: "🤝", title: "Collaboration Boards", desc: "Find teams to work with." },
+                { icon: "💼", title: "Micro-Gigs", desc: "Offer short gigs and get paid." },
+                { icon: "🚀", title: "Recruiter Access", desc: "Get discovered by recruiters." }
+              ].map((card, i) => (
+                <div key={i} className="rounded-2xl p-6 bg-white shadow hover:scale-105 transition-transform">
+                  <div className="text-4xl">{card.icon}</div>
+                  <h3 className="mt-4 font-bold text-lg text-[#111827]">{card.title}</h3>
+                  <p className="mt-2 text-sm text-[#374151]">{card.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
