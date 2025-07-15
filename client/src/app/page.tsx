@@ -19,7 +19,7 @@ export default function Homepage() {
           </div>
           <div className="flex items-center gap-3">
             <a className="px-5 py-2.5 rounded-full border hover:bg-gray-100" href="#">Login</a>
-            <a className="px-5 py-2.5 rounded-full bg-[#4361ee] text-white hover:bg-opacity-90" href="#">Register</a>
+            <a className="px-5 py-2.5 rounded-full bg-[#4361ee] text-white hover:bg-opacity-90" href="/login">Register</a>
           </div>
         </nav>
       </header>
