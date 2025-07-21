@@ -1,9 +1,49 @@
 'use client';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { supabase } from '../../../lib/supabaseClient';
 
 export default function DashboardPage() {
+  const [skills, setSkills] = useState<any[]>([]);
+  const [people, setPeople] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  // Auth check
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+      }
+    };
+    checkUser();
+  }, [router]);
+
+  // Fetch dashboard data
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const skillsRes = await fetch('http://localhost:4000/api/recommended-skills');
+        const peopleRes = await fetch('http://localhost:4000/api/people-you-may-know');
+        if (!skillsRes.ok || !peopleRes.ok) throw new Error('Failed to fetch data');
+        const skillsData = await skillsRes.json();
+        const peopleData = await peopleRes.json();
+        setSkills(skillsData);
+        setPeople(peopleData);
+      } catch (err: any) {
+        setError(err.message || 'Error fetching data');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="relative flex min-h-screen flex-col bg-[#f8f9fa] overflow-x-hidden">
       <header className="flex items-center justify-between border-b border-[#e5e7eb] bg-white px-8 py-4">
@@ -36,7 +76,7 @@ export default function DashboardPage() {
             <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
             <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
             <div className="my-1 border-t border-gray-100"></div>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+            <a href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
           </div>
         </div>
       </header>
@@ -61,44 +101,54 @@ export default function DashboardPage() {
 
         <main className="flex-1 p-8">
           <div className="space-y-8 rounded-xl border border-[#e5e7eb] bg-white p-6">
-            <section>
-              <h2 className="mb-4 text-xl font-bold text-[#111827]">Recommended Skills</h2>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {["Advanced JavaScript", "UI/UX Design Principles", "Data Visualization with D3.js"].map((title) => (
-                  <div key={title} className="rounded-lg border border-[#e5e7eb] bg-[#f3f4f6] p-4">
-                    <h3 className="font-semibold text-[#111827]">{title}</h3>
-                    <p className="mt-1 text-sm text-[#6b7280]">
-                      Learn or enhance your {title} skills.
-                    </p>
+            {loading ? (
+              <div>Loading...</div>
+            ) : error ? (
+              <div className="text-red-500">{error}</div>
+            ) : (
+              <>
+                <section>
+                  <h2 className="mb-4 text-xl font-bold text-[#111827]">Recommended Skills</h2>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {skills.map((skill) => (
+                      <div key={skill.id} className="rounded-lg border border-[#e5e7eb] bg-[#f3f4f6] p-4">
+                        <h3 className="font-semibold text-[#111827]">{skill.title}</h3>
+                        <p className="mt-1 text-sm text-[#6b7280]">
+                          {skill.description || `Learn or enhance your ${skill.title} skills.`}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                </section>
 
-            <section>
-              <h2 className="mb-4 text-xl font-bold text-[#111827]">People You May Know</h2>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {["Jane Doe", "John Smith", "Sarah Lee"].map((name, idx) => (
-                  <div
-                    key={name}
-                    className="flex flex-col items-center rounded-lg border border-[#e5e7eb] bg-white p-4 text-center"
-                  >
-                    <Image
-                      src={`https://api.dicebear.com/7.x/initials/svg?seed=${name}`}
-                      alt={`Profile of ${name}`}
-                      width={96}
-                      height={96}
-                      className="h-24 w-24 rounded-full"
-                    />
-                    <h3 className="mt-3 font-semibold text-[#111827]">{name}</h3>
-                    <p className="mt-1 text-sm text-[#6b7280]">Shared skills: XYZ</p>
-                    <button className="mt-4 w-full rounded-full bg-[#4f8bc4] px-4 py-2 text-sm font-semibold text-white hover:bg-[#4379a9]">
-                      Connect
-                    </button>
+                <section>
+                  <h2 className="mb-4 text-xl font-bold text-[#111827]">People You May Know</h2>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {people.map((person) => (
+                      <div
+                        key={person.id}
+                        className="flex flex-col items-center rounded-lg border border-[#e5e7eb] bg-white p-4 text-center"
+                      >
+                        <Image
+                          src={person.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${person.name}`}
+                          alt={`Profile of ${person.name}`}
+                          width={96}
+                          height={96}
+                          className="h-24 w-24 rounded-full"
+                        />
+                        <h3 className="mt-3 font-semibold text-[#111827]">{person.name}</h3>
+                        <p className="mt-1 text-sm text-[#6b7280]">
+                          Shared skills: {person.shared_skills ? person.shared_skills : 'N/A'}
+                        </p>
+                        <button className="mt-4 w-full rounded-full bg-[#4f8bc4] px-4 py-2 text-sm font-semibold text-white hover:bg-[#4379a9]">
+                          Connect
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                </section>
+              </>
+            )}
           </div>
         </main>
       </div>

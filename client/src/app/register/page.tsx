@@ -7,7 +7,7 @@ const handleGoogleLogin = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'http://localhost:3000/login', // or your desired page
+      redirectTo: 'http://localhost:3000/dashoard', // or your desired page
     }
   })
 

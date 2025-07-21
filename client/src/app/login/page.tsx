@@ -22,7 +22,7 @@ export default function LoginPage() {
     if (error) {
       setErrorMsg(error.message)
     } else {
-      router.push('/') // or your desired post-login route
+      router.push('/dashboard') // or your desired post-login route
     }
 
     setLoading(false)
@@ -32,7 +32,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000', // your post-login route
+        redirectTo: 'http://localhost:3000/dashboard', // your post-login route
       },
     })
 
